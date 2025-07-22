@@ -67,7 +67,7 @@ In order to facilitate an easy example, k3d is used. K3d provides a simple Kuber
     mc alias set myminio https://localhost:9000 minio minio123 --insecure
     mc admin config set myminio/ notify_nats:primary \
         address="nats.default.svc.cluster.local:4222" \
-        subject="minio" \
+        subject="orders" \
         tls_skip_verify="on" \
         jetstream="on" \
         enable="on" \
@@ -104,6 +104,6 @@ In order to facilitate an easy example, k3d is used. K3d provides a simple Kuber
 1. In the listening terminal, there should be output like:
 
     ```sh
-    [#1] Received on "minio" with reply "_INBOX.SsrlUpsy4kfu5hLwjbnnPR.ayvZYz4h"
+    [#1] Received on "orders" with reply "_INBOX.SsrlUpsy4kfu5hLwjbnnPR.ayvZYz4h"
     {"EventName":"s3:ObjectCreated:Put","Key":"mybucket/test.txt","Records":[{"eventVersion":"2.0","eventSource":"minio:s3","awsRegion":"","eventTime":"2025-07-08T14:15:39.443Z","eventName":"s3:ObjectCreated:Put","userIdentity":{"principalId":"minio"},"requestParameters":{"principalId":"minio","region":"","sourceIPAddress":"127.0.0.1"},"responseElements":{"x-amz-id-2":"a4ab6bb342be1b6ab0c9be895868837d9a4f30778d6bb99f882c2564c5d4e607","x-amz-request-id":"18504C4ADA8BF777","x-minio-deployment-id":"a2a151f9-442f-47e7-882b-175bd4b2753f","x-minio-origin-endpoint":"https://minio.minio-tenant.svc.cluster.local"},"s3":{"s3SchemaVersion":"1.0","configurationId":"Config","bucket":{"name":"mybucket","ownerIdentity":{"principalId":"minio"},"arn":"arn:aws:s3:::mybucket"},"object":{"key":"test.txt","size":5,"eTag":"d8e8fca2dc0f896fd7cb4cb0031ba249","contentType":"text/plain","userMetadata":{"content-type":"text/plain"},"sequencer":"18504C4ADA8EBF58"}},"source":{"host":"127.0.0.1","port":"","userAgent":"MinIO (linux; amd64) minio-go/v7.0.76 mc/RELEASE.2024-09-09T07-53-10Z"}}]}
     ```
