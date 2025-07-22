@@ -1,0 +1,12 @@
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Stream
+metadata:
+  name: minio-stream
+  namespace: nats
+spec:
+  name: minio-stream
+  subjects: ["minio", "minio.>"]
+  storage: file
+  replicas: 1
+  account: admin

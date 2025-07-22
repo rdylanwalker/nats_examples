@@ -1,0 +1,11 @@
+---
+apiVersion: jetstream.nats.io/v1beta2
+kind: Consumer
+metadata:
+  name: minio-reader-pull-consumer
+  namespace: nats
+spec:
+  streamName: minio-stream
+  durableName: minio-reader-pull-consumer
+  ackPolicy: explicit
+  account: reader

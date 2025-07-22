@@ -1,0 +1,76 @@
+tlsCA:
+  enabled: true
+  secretName: nats-sys-tls
+  key: ca.crt
+
+config:
+  cluster:
+    enabled: true
+  jetstream:
+    enabled: true
+
+    memoryStore:
+      enabled: true
+      maxSize: 2Gi
+
+    fileStore:
+      enabled: true
+      pvc:
+        enabled: true
+        size: 1Gi
+
+  nats:
+    tls:
+      enabled: true
+      secretName: nats-server-tls
+      cert: tls.crt
+      key: tls.key
+      merge:
+        verify_and_map: true
+
+  merge:
+    system_account: SYS
+    authorization:
+      users:
+        - user: CN=nats-admin
+          permissions:
+            publish: ">"
+            subscribe: ">"
+        - user: CN=nats-minio
+          permissions:
+            publish:
+              - "minio"
+              - "minio.>"
+            subscribe: []
+        - user: CN=nats-reader
+          permissions:
+            publish:
+              - "$JS.ACK.minio-stream.>"
+              - "$JS.SNAPSHOT.ACK.minio-stream.>"
+              - "$JS.API.STREAM.LIST"
+              - "$JS.API.STREAM.NAMES"
+              - "$JS.API.STREAM.INFO.minio-stream"
+              - "$JS.API.STREAM.MSG.GET.minio-stream"
+              - "$JS.API.CONSUMER.INFO.minio-stream.>"
+              - "$JS.API.CONSUMER.CREATE.minio-stream.>"
+              - "$JS.API.CONSUMER.LIST.minio-stream"
+              - "$JS.API.CONSUMER.NAMES.minio-stream"
+              - "$JS.API.CONSUMER.MSG.NEXT.minio-stream.>"
+            subscribe:
+              - "minio"
+              - "minio.>"
+              - "_INBOX.>" # Necessary to create consumer
+    accounts:
+      SYS:
+        users:
+          - user: CN=nats-sys-user
+
+natsBox:
+  contexts:
+    default:
+      tls:
+        secretName: nats-admin-tls
+        # Switch to reader to check permissions via Nats-Box
+        # secretName: nats-reader-tls
+        cert: tls.crt
+        key: tls.key

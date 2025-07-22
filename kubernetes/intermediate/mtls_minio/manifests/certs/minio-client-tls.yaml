@@ -1,0 +1,18 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nats-minio-tls
+  namespace: nats
+spec:
+  secretName: nats-minio-tls
+  duration: 2160h # 90 days
+  renewBefore: 240h # 10 days
+  issuerRef:
+    name: nats-ca
+    kind: Issuer
+  usages:
+    - digital signature
+    - key encipherment
+    - client auth
+  commonName: nats-minio
