@@ -39,27 +39,31 @@ config:
         - user: CN=nats-minio
           permissions:
             publish:
-              - "minio"
-              - "minio.>"
-            subscribe: []
+              allow:
+                - "minio"
+                - "minio.>"
+            subscribe:
+              deny: ">"
         - user: CN=nats-reader
           permissions:
             publish:
-              - "$JS.ACK.minio-stream.>"
-              - "$JS.SNAPSHOT.ACK.minio-stream.>"
-              - "$JS.API.STREAM.LIST"
-              - "$JS.API.STREAM.NAMES"
-              - "$JS.API.STREAM.INFO.minio-stream"
-              - "$JS.API.STREAM.MSG.GET.minio-stream"
-              - "$JS.API.CONSUMER.INFO.minio-stream.>"
-              - "$JS.API.CONSUMER.CREATE.minio-stream.>"
-              - "$JS.API.CONSUMER.LIST.minio-stream"
-              - "$JS.API.CONSUMER.NAMES.minio-stream"
-              - "$JS.API.CONSUMER.MSG.NEXT.minio-stream.>"
+              allow:
+                - "$JS.ACK.minio-stream.>"
+                - "$JS.SNAPSHOT.ACK.minio-stream.>"
+                - "$JS.API.STREAM.LIST"
+                - "$JS.API.STREAM.NAMES"
+                - "$JS.API.STREAM.INFO.minio-stream"
+                - "$JS.API.STREAM.MSG.GET.minio-stream"
+                - "$JS.API.CONSUMER.INFO.minio-stream.>"
+                - "$JS.API.CONSUMER.CREATE.minio-stream.>"
+                - "$JS.API.CONSUMER.LIST.minio-stream"
+                - "$JS.API.CONSUMER.NAMES.minio-stream"
+                - "$JS.API.CONSUMER.MSG.NEXT.minio-stream.>"
             subscribe:
-              - "minio"
-              - "minio.>"
-              - "_INBOX.>" # Necessary to create consumer
+              allow:
+                - "minio"
+                - "minio.>"
+                - "_INBOX.>" # Necessary to create consumer
     accounts:
       SYS:
         users:
