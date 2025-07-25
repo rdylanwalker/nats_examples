@@ -39,7 +39,7 @@ In order to facilitate an easy example, k3d is used. K3d provides a simple Kuber
     kubectl apply -f certs/issuer.yaml
     kubectl apply -f certs/nack-admin-client-tls.yaml
     kubectl apply -f certs/minio-client-tls.yaml
-    kubectl apply -f certs/ecds-client-tls.yaml
+    kubectl apply -f certs/reader-client-tls.yaml
     kubectl apply -f certs/server-tls.yaml
     kubectl apply -f certs/client-tls.yaml
     kubectl get secret -n nats
@@ -60,7 +60,7 @@ In order to facilitate an easy example, k3d is used. K3d provides a simple Kuber
 
     ```sh
     kubectl apply -f nack/nats-account-admin.yaml
-    kubectl apply -f nack/nats-account-ecds.yaml
+    kubectl apply -f nack/nats-account-reader.yaml
     kubectl get account -n nats
     kubectl apply -f nack/nats-stream-minio.yaml
     kubectl get stream -n nats
@@ -127,7 +127,7 @@ In order to facilitate an easy example, k3d is used. K3d provides a simple Kuber
     kubectl exec -it deployment/nats-box -n nats -- /bin/sh -l
     nats stream ls # Confirm 1 message
     nats consumer next minio-stream minio-admin-pull-consumer
-    nats consumer next minio-stream minio-ecds-pull-consumer
+    nats consumer next minio-stream minio-reader-pull-consumer
     ```
 
 ## Key Technical Details
